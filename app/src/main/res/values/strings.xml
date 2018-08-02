@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">CellPointAssessment</string>
+    <string name="title_activity_repos">ReposActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="connect">Connect your device to internet</string>
+    <string name="notfound">Sorry but couldn\'t find this repository</string>
+    <string name="search">Search for a repository</string>
+    <string name="notsaved">You have not saved any repositories</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

@@ -1,0 +1,62 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/frag_details"
+    android:layout_height="match_parent"
+    tools:context="com.example.disen.cellpointassessment.ReposDetailsFragment">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/details"/>
+
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/link"
+                android:src="@drawable/twotone_language_black_48dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_gravity="center"
+                android:text="more"
+                android:padding="10dp"
+                android:layout_height="wrap_content" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:layout_gravity="center"
+                android:text="Description"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/desc"
+                android:layout_height="wrap_content" />
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:src="@drawable/baseline_get_app_white_36dp"
+            android:id="@+id/save"
+            android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</FrameLayout>
