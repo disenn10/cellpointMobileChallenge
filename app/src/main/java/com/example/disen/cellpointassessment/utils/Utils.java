@@ -1,5 +1,7 @@
 package com.example.disen.cellpointassessment.utils;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,7 +26,7 @@ import java.util.Scanner;
 
 public class Utils {
 
-    public static ArrayList<GitUser> fetchData(String request) throws IOException {
+    public static ArrayList<GitUser> fetchData(String request, String language) throws IOException {
         URL url = null;
         ArrayList<GitUser> data = new ArrayList<>();
         try {
@@ -34,7 +36,7 @@ public class Utils {
         }
         String output = makeHttpConnection(url);
         try {
-            data = extractData(output);
+            data = extractData(output, language);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -87,7 +89,7 @@ public class Utils {
         return output;
     }
 
-    public static ArrayList<GitUser> extractData(String output) throws JSONException {
+    public static ArrayList<GitUser> extractData(String output, String language_match) throws JSONException {
         if(output == null){
             return null;
         }
@@ -96,6 +98,8 @@ public class Utils {
         String description = "none";
         String created = null;
         String updated = null;
+        String language = null;
+        int stars = 0;
         int watchers = 0;
         ArrayList<GitUser> data_list = new ArrayList<>();
         JSONObject jsonObject = new JSONObject(output);
@@ -119,10 +123,18 @@ public class Utils {
             if (item_obj.has("updated_at")) {
                 updated = item_obj.getString("updated_at");
             }
+            if (item_obj.has("stargazers_count")) {
+                stars = item_obj.getInt("stargazers_count");
+            }
             if (item_obj.has("watchers")) {
                 watchers = item_obj.getInt("watchers");
             }
-            data_list.add(new GitUser(name, url, description, created, updated, watchers));
+            if (item_obj.has("language")) {
+                language = item_obj.getString("language").toUpperCase();
+            }
+            if (language.equals(language_match)) {
+                data_list.add(new GitUser(name, url, description, created, updated, watchers, stars));
+            }
         }
         return data_list;
     }
@@ -154,6 +166,7 @@ public class Utils {
                     item_obj = items_Arr.getJSONObject(i);
                 } catch (JSONException e) {
                     e.printStackTrace();
+
                 }
                 if (item_obj.has("language")) {
                     try {
@@ -171,13 +184,12 @@ public class Utils {
                 }
                 //update its number of repos if the language has already been added to the list
                 else {
-                    //find language and update its no
-                    //instead get the position of the duplicate and do the set arraylist here
                     updateNorepos(language, language_list);
                 }
             }
         return language_list;
     }
+
 
     //Check duplicates programming languages
     public static Boolean checkDuplicates(String lang, ArrayList<GitUser> lang_list) {
@@ -206,6 +218,7 @@ public class Utils {
         }
     }
 
+
     public static String convertDate(String jsonDate) throws ParseException {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
         Date date = dateFormat.parse(jsonDate);//You will get date object relative to server/client timezone wherever it is parsed
@@ -216,11 +229,7 @@ public class Utils {
     }
 
     public static String createRequest(String query) {
-        String new_query = "https://api.github.com/search/repositories?q=user:" + query;
-        return new_query;
-    }
-    public static String createRequest(String query,String language) {
-        String new_query = query+"+language:"+language+"&sort=stars&order=desc";
+        String new_query = "https://api.github.com/search/repositories?q=user:" + query + "&per_page=100";
         return new_query;
     }
 }

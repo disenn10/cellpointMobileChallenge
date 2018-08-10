@@ -2,6 +2,7 @@ package com.example.disen.cellpointassessment;
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
+import android.util.Log;
 
 import com.example.disen.cellpointassessment.utils.GitUser;
 import com.example.disen.cellpointassessment.utils.Utils;
@@ -16,11 +17,13 @@ import java.util.ArrayList;
 public class DataAsyntaskLoader extends AsyncTaskLoader<ArrayList<GitUser>> {
     String request;
     int request_type;
+    String language;
 
-    public DataAsyntaskLoader(Context context, String request, int request_type) {
+    public DataAsyntaskLoader(Context context, String request, int request_type, String language) {
         super(context);
         this.request = request;
         this.request_type = request_type;
+        this.language = language;
     }
 
     @Override
@@ -28,7 +31,6 @@ public class DataAsyntaskLoader extends AsyncTaskLoader<ArrayList<GitUser>> {
         switch (request_type) {
             case 0:
                 try {
-
                     return Utils.fetchNumberofLanguages(request);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -36,7 +38,7 @@ public class DataAsyntaskLoader extends AsyncTaskLoader<ArrayList<GitUser>> {
                 break;
             case 1:
                 try {
-                    return Utils.fetchData(request);
+                    return Utils.fetchData(request, language);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

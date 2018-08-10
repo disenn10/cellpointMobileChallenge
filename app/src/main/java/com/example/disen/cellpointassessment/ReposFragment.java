@@ -10,15 +10,18 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.disen.cellpointassessment.ui.SectionsAdapter;
 import com.example.disen.cellpointassessment.utils.GitUser;
 import com.example.disen.cellpointassessment.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 /**
@@ -49,6 +52,7 @@ public class ReposFragment extends Fragment implements LoaderManager.LoaderCallb
         LoaderManager loaderManager = getLoaderManager();
         language = getArguments().getString("language");
         query = getArguments().getString("query");
+        Log.e("", "" + query);
         loaderManager.initLoader(0, null, this);
         return view;
     }
@@ -82,14 +86,19 @@ public class ReposFragment extends Fragment implements LoaderManager.LoaderCallb
 
     @Override
     public Loader<ArrayList<GitUser>> onCreateLoader(int id, Bundle args) {
-        return new DataAsyntaskLoader(getContext(), Utils.createRequest(query, language), 1);
+        String rk = Utils.createRequest(query);
+        Log.e("", "" + rk);
+        return new DataAsyntaskLoader(getContext(), Utils.createRequest(query), 1, language);
     }
 
     @Override
     public void onLoadFinished(Loader<ArrayList<GitUser>> loader, ArrayList<GitUser> data) {
         if (data != null) {
+            Collections.sort(data, GitUser.StarsComparator);
             data_copy = data;
             updateUI(data);
+        } else {
+            Toast.makeText(getContext(), "NULL!!!!", Toast.LENGTH_SHORT).show();
         }
     }
 

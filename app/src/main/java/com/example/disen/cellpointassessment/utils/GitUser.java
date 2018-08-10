@@ -15,19 +15,25 @@ public class GitUser {
     int watchers;
     String language;
     int noLanguages;
+    int stars;
 
     public GitUser(String language, int noLanguages){
         this.language = language;
         this.noLanguages = noLanguages;
     }
 
-    public GitUser(String name, String url, String description, String created, String updated, int watchers){
+    public GitUser(String name, String url, String description, String created, String updated, int watchers, int stars) {
         this.name = name;
         this.url = url;
         this.description = description;
         this.created = created;
         this.updated = updated;
         this.watchers = watchers;
+        this.stars = stars;
+    }
+
+    public int getStars() {
+        return stars;
     }
 
     public int getNoLanguages() {
@@ -69,6 +75,17 @@ public class GitUser {
             int firstSec = s1.getNoLanguages();
             int secondSec = s2.getNoLanguages();
             return secondSec - firstSec;
+        }
+
+    };
+
+    public static Comparator<GitUser> StarsComparator = new Comparator<GitUser>() {
+
+        @Override
+        public int compare(GitUser s1, GitUser s2) {
+            int firstStar = s1.getStars();
+            int secondStar = s2.getStars();
+            return secondStar - firstStar;
         }
 
     };

@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader<ArrayList<GitUser>> onCreateLoader(int id, Bundle args) {
         String query = handleIntent(getIntent());
-        return new DataAsyntaskLoader(this,query,0);
+        return new DataAsyntaskLoader(this, query, 0, "");
     }
 
     @Override
@@ -115,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         else {
             query = null;
         }
-        query_copy = query;
+        query_copy = intent.getStringExtra(SearchManager.QUERY);
         return query;
     }
 
