@@ -182,7 +182,7 @@ public class Utils {
                     noLanguage += 1;
                     language_list.add(new GitUser(language, noLanguage));
                 }
-                //update its number of repos if the language has already been added to the list
+                //update its number of repos if the language has already been added to the lis
                 else {
                     updateNorepos(language, language_list);
                 }
